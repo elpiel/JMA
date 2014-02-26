@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 import javax.swing.JTabbedPane;
+import movie.Movies;
 public class Main extends JFrame{
 	private JTabbedPane tab;
 	
@@ -10,9 +11,10 @@ public class Main extends JFrame{
 	}
 	
 	public void components(){
+		Movies movieTab = new Movies();
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		tab = new JTabbedPane();
-		tab.setName("Test");
+		tab.addTab("Филми",movieTab);
 		add(tab);
 	}
 	

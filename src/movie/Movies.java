@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 //import visual.Main.ButtonClick;
 
-public class Movies extends JFrame {
+public class Movies extends JPanel {
 	
 	JLabel movieNameLabel = new JLabel("Име на филма:");
 	JTextField movieNameField = new JTextField("", 10);
@@ -68,19 +68,5 @@ public class Movies extends JFrame {
 		//ActionListener l;
 		button.addActionListener(new ButtonClick());*/
 		
-	}
-	
-	public static void main(String[] args) {
-		Movies jFrame = new Movies(); // Starting JFrame
-		
-		// set it visible for the user
-		jFrame.setVisible(true);
-		
-		// the location to be in the middle of the screen
-		jFrame.setLocationRelativeTo(null);
-		
-		// what the X to do
-		jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE); // Exit when X clicked
-
 	}
 }
