@@ -1,24 +1,25 @@
 package movie;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import java.util.Objects;
 
 //import visual.Table;
 
 //import visual.Main.ButtonClick;
 
 public class Movies extends JPanel {
+	
+	private static final long serialVersionUID = 8273799549075706452L;
+	
 	Object[] categories = {
 			"Екшън",
 			"Комедия",
@@ -33,7 +34,7 @@ public class Movies extends JPanel {
 			"Ужас",
 			"Ужас",
 	};
-	JList listCategories = new JList(categories);
+	JList<Object> listCategories = new JList<Object>(categories);
 	JScrollPane scrollCategories = new JScrollPane(listCategories); 
 	
 	JLabel movieNameLabel = new JLabel("Име на филма:");
