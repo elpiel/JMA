@@ -1,22 +1,40 @@
 package movie;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-//import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import java.util.Objects;
 
 //import visual.Table;
 
 //import visual.Main.ButtonClick;
 
 public class Movies extends JPanel {
+	Object[] categories = {
+			"Екшън",
+			"Комедия",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+			"Ужас",
+	};
+	JList listCategories = new JList(categories);
+	JScrollPane scrollCategories = new JScrollPane(listCategories); 
 	
 	JLabel movieNameLabel = new JLabel("Име на филма:");
 	JTextField movieNameField = new JTextField("", 10);
@@ -27,14 +45,11 @@ public class Movies extends JPanel {
 	JLabel movieDescLabel = new JLabel("Описание:");
 	JTextArea movieDescArea = new JTextArea(5, 10);
 	
-	
-	
 	JLabel movieCategoriesLabel = new JLabel("Категория");
 	String[] categoriesArr = { "new", "old", "black" };
 	JComboBox<String> movieCategoriesBox = new JComboBox<String>(categoriesArr);
 	
 	JButton createButton = new JButton("Създай");
-	
 	
 	public Movies() {
 		super();
@@ -54,8 +69,10 @@ public class Movies extends JPanel {
 		panel1.add(movieDescLabel);
 		panel1.add(movieDescArea);
 		
+		listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		listCategories.setLayoutOrientation(JList.VERTICAL);
 		panel1.add(movieCategoriesLabel);
-		panel1.add(movieCategoriesBox);
+		panel1.add(scrollCategories);
 		
 		this.add(panel1, BorderLayout.NORTH);
 		
@@ -67,6 +84,5 @@ public class Movies extends JPanel {
 		
 		//ActionListener l;
 		button.addActionListener(new ButtonClick());*/
-		
 	}
 }
