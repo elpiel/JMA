@@ -1,36 +1,36 @@
-import javax.swing.JFrame;
-
 import java.awt.FlowLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import category.Categories;
 import movie.Movies;
-public class Main extends JFrame{
-	private static final long serialVersionUID = 8074663065485731358L;
-	private JTabbedPane tab;
+
+class Main extends JFrame{
+	
+	private static final long serialVersionUID = 8793784007542786219L;
+	JTabbedPane tabs = new JTabbedPane();
 	
 	public Main(){
-		super("JMA");
-		components();
+		super("JDBA");
+		Components();
 	}
 	
-	public void components(){
-		
+	public void Components(){
 		setLayout(new FlowLayout(FlowLayout.CENTER));
-		tab = new JTabbedPane();
+
+		Movies movie = new Movies();
+		tabs.addTab("Филми",movie);
+		add(tabs);
 		
-		Movies moviesTab = new Movies();
-		tab.addTab("Филми",moviesTab);
-		
-		Categories categoriesTab = new Categories();
-		tab.addTab("Категории",categoriesTab);
-		add(tab);
+		Categories categories = new Categories();
+		tabs.addTab("Категории",categories);
+		add(tabs);
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Main window = new Main();
-		window.setSize(700, 500);
+		window.setSize(1000,700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
 	}

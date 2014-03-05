@@ -1,5 +1,6 @@
 package movie;
-import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JScrollPane;
@@ -8,82 +9,75 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-//import visual.Table;
+public class Movies extends JPanel{
 
-//import visual.Main.ButtonClick;
-
-public class Movies extends JPanel {
+	private static final long serialVersionUID = 5868937736280780583L;
+	JLabel labelMovieName = new JLabel("Име на филма:");
+	JLabel labelTrailer = new JLabel("Трайлър:");
+	JLabel labelYear = new JLabel("Година:");
+	JLabel labelDescription = new JLabel("Описание:");
+	JLabel labelCategories = new JLabel("Категория:");
 	
-	private static final long serialVersionUID = 8273799549075706452L;
+	JTextField movieName = new JTextField(10);
+	JTextField movieTrailer = new JTextField(10);
+	JTextField movieYear = new JTextField(5);
+	JTextField searchName = new JTextField("Заглавие на филма",15);
+	JTextField movieDescription = new JTextField(10);
 	
-	Object[] categories = {
-			"Екшън",
-			"Комедия",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-			"Ужас",
-	};
-	JList<Object> listCategories = new JList<Object>(categories);
-	JScrollPane scrollCategories = new JScrollPane(listCategories); 
+	String[] categories = {"Екшън","Комедия","Ужас","Драма","Криминален","Спортен"};
+	JTable dataTable = new JTable();
+	JScrollPane scroller = new JScrollPane(dataTable);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox dropDown = new JComboBox(categories);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox dropDownChoice = new JComboBox(categories);
 	
-	JLabel movieNameLabel = new JLabel("Име на филма:");
-	JTextField movieNameField = new JTextField("", 10);
+	JButton buttonAdd = new JButton("Запиши");
+	JButton buttonSearch = new JButton("Търси");
 	
-	JLabel movieTrailerLabel = new JLabel("Трейлър:");
-	JTextField movieTrailerField = new JTextField("", 30);
 	
-	JLabel movieDescLabel = new JLabel("Описание:");
-	JTextArea movieDescArea = new JTextArea(5, 10);
-	
-	JLabel movieCategoriesLabel = new JLabel("Категория");
-	String[] categoriesArr = { "new", "old", "black" };
-	JComboBox<String> movieCategoriesBox = new JComboBox<String>(categoriesArr);
-	
-	JButton createButton = new JButton("Създай");
-	
-	public Movies() {
+	public Movies(){
 		super();
-		BorderLayout border1 = new BorderLayout();
-		this.setLayout(border1); // Adding the Border layout
-		this.setSize(600, 600); // size of JFrame
+		setLayout(new GridLayout(3,1));
 		
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridLayout(4,2));
-		//panel1.setSize(200, 200);
-		panel1.add(movieNameLabel);
-		panel1.add(movieNameField);
+		JPanel movieInfoPanel = new JPanel();
+		movieInfoPanel.setLayout(new GridLayout(7,2,1,4));
 		
-		panel1.add(movieTrailerLabel);
-		panel1.add(movieTrailerField);
+		movieInfoPanel.add(labelMovieName);
+		movieInfoPanel.add(movieName);
 		
-		panel1.add(movieDescLabel);
-		panel1.add(movieDescArea);
+		movieInfoPanel.add(labelTrailer);
+		movieInfoPanel.add(movieTrailer);
 		
-		listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		listCategories.setLayoutOrientation(JList.VERTICAL);
-		panel1.add(movieCategoriesLabel);
-		panel1.add(scrollCategories);
+		movieInfoPanel.add(labelYear);
+		movieInfoPanel.add(movieYear);
 		
-		this.add(panel1, BorderLayout.NORTH);
+		movieInfoPanel.add(labelDescription);
+		movieInfoPanel.add(movieDescription);
 		
+		movieInfoPanel.add(labelCategories);
+		movieInfoPanel.add(dropDown);
+		movieInfoPanel.add(new JPanel());
+		movieInfoPanel.add(buttonAdd);
 		
-		/*this.add(label); // adding the label of the text field
-		this.add(textField); // adding the text field
-		this.add(box); // adding the Combobox
-		this.add(button); // Adding button
+		JPanel searchPanel = new JPanel();
+		searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		searchPanel.add(searchName);
+		searchPanel.add(dropDownChoice);
+		searchPanel.add(buttonSearch);
 		
-		//ActionListener l;
-		button.addActionListener(new ButtonClick());*/
+		JPanel tablePanel = new JPanel();
+		dataTable.setPreferredScrollableViewportSize(new Dimension(600,150));
+		dataTable.setFillsViewportHeight(true);
+		tablePanel.add(scroller);
+		
+		add(movieInfoPanel);
+		add(searchPanel);
+		add(tablePanel);
 	}
 }

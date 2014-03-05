@@ -1,58 +1,52 @@
 package category;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class Categories extends JPanel {
+public class Categories extends JPanel{
 	
-	private static final long serialVersionUID = -7021387462856765137L;
+	private static final long serialVersionUID = 7806750679143450555L;
+	JLabel labelCategory = new JLabel("Име на категорията:");
+	JTextField categoryField = new JTextField();
 	
-	JLabel catNameLabel = new JLabel("Име на категорията:");
-	JTextField catNameField = new JTextField("", 10);
+	JTable Table = new JTable();
+	JScrollPane scroller = new JScrollPane(Table);
 	
-	JButton createCat = new JButton("Създай Категория");
+	JButton buttonCreate = new JButton("Създай категория");
+	JButton buttonDelete = new JButton("Изтрий");
+	JButton buttonEdit = new JButton("Редактрирай");
 	
-	JButton deleteCats = new JButton("Изтрий");
-	JButton editCat = new JButton("Редактирай");
-	
-	JButton table = new JButton("Таблица ТУК");
-	
-	public Categories() {
+	public Categories(){
 		super();
-		BorderLayout border1 = new BorderLayout();
-		this.setLayout(border1); // Adding the Border layout
+		setLayout(new GridLayout(4,1));
 		
-		JPanel panel_north = new JPanel();
-		panel_north.setLayout(new GridLayout(2,2));
+		JPanel newPanel = new JPanel();
+		newPanel.setLayout(new GridLayout(3,2,1,4));
+		newPanel.add(labelCategory);
+		newPanel.add(categoryField);
+		newPanel.add(new JPanel());
+		newPanel.add(buttonCreate);
 		
-		panel_north.add(catNameLabel);
-		panel_north.add(catNameField);
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(null);
+		buttonsPanel.add(buttonDelete).setBounds(10,100,90,25);
+		buttonsPanel.add(buttonEdit).setBounds(120,100,110,25);
 		
-		panel_north.add(new JPanel());
-		panel_north.add(createCat);
-		
-		this.add(panel_north, BorderLayout.NORTH);
-		
-		JPanel panel_south = new JPanel();
-		panel_south.setLayout(new BorderLayout());
-		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelButtons.add(editCat);
-		panelButtons.add(deleteCats);
+		JPanel tablePanel = new JPanel();
+		Table.setPreferredScrollableViewportSize(new Dimension(600,150));
+		Table.setFillsViewportHeight(true);
+		tablePanel.add(scroller);
 		
 		
-		panel_south.add(panelButtons, BorderLayout.NORTH);
+		add(newPanel);
+		add(buttonsPanel);
+		add(tablePanel);
 		
-		panel_south.add(table, BorderLayout.SOUTH);
-		
-		this.add(panel_south, BorderLayout.SOUTH);
 	}
-
 }
