@@ -1,6 +1,5 @@
 package category;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -9,11 +8,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
+
 public class Categories extends JPanel{
 	
 	private static final long serialVersionUID = 7806750679143450555L;
 	JLabel labelCategory = new JLabel("Име на категорията:");
-	JTextField categoryField = new JTextField();
+	JTextField categoryField = new JTextField(15);
 	
 	JTable Table = new JTable();
 	JScrollPane scroller = new JScrollPane(Table);
@@ -24,29 +25,32 @@ public class Categories extends JPanel{
 	
 	public Categories(){
 		super();
-		setLayout(new GridLayout(4,1));
+		setLayout(new MigLayout("wrap 1"));
 		
 		JPanel newPanel = new JPanel();
-		newPanel.setLayout(new GridLayout(3,2,1,4));
+		newPanel.setLayout(new MigLayout());
 		newPanel.add(labelCategory);
-		newPanel.add(categoryField);
-		newPanel.add(new JPanel());
-		newPanel.add(buttonCreate);
+		newPanel.add(categoryField, "wrap");
+		
+		newPanel.add(buttonCreate, "wrap 30");
 		
 		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(null);
-		buttonsPanel.add(buttonDelete).setBounds(10,100,90,25);
-		buttonsPanel.add(buttonEdit).setBounds(120,100,110,25);
+		buttonsPanel.setLayout(new MigLayout());
+		buttonsPanel.add(buttonDelete);
+		buttonsPanel.add(buttonEdit, "wrap");
 		
 		JPanel tablePanel = new JPanel();
+		tablePanel.setLayout(new MigLayout());
+		
 		Table.setPreferredScrollableViewportSize(new Dimension(600,150));
 		Table.setFillsViewportHeight(true);
-		tablePanel.add(scroller);
+		
+		tablePanel.add(scroller, "span");
 		
 		
-		add(newPanel);
-		add(buttonsPanel);
-		add(tablePanel);
+		this.add(newPanel);
+		this.add(buttonsPanel);
+		this.add(tablePanel);
 		
 	}
 }

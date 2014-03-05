@@ -1,7 +1,6 @@
 package movie;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -13,6 +12,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
+import net.miginfocom.swing.MigLayout;
 
 public class Movies extends JPanel{
 
@@ -27,43 +28,50 @@ public class Movies extends JPanel{
 	JTextField movieTrailer = new JTextField(10);
 	JTextField movieYear = new JTextField(5);
 	JTextField searchName = new JTextField("Заглавие на филма",15);
-	JTextField movieDescription = new JTextField(10);
+	JTextArea movieDescription = new JTextArea(4, 30);
 	
-	String[] categories = {"Екшън","Комедия","Ужас","Драма","Криминален","Спортен"};
-	JTable dataTable = new JTable();
-	JScrollPane scroller = new JScrollPane(dataTable);
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox dropDown = new JComboBox(categories);
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox dropDownChoice = new JComboBox(categories);
+	Object[] categories = {"Екшън","Комедия","Ужас","Драма","Криминален","Спортен"};
+	JList<Object> listCategories = new JList<Object>(categories);
+	JScrollPane scrollCategories = new JScrollPane(listCategories);
+	
+	JComboBox<Object> dropDownChoice = new JComboBox<Object>(categories);
 	
 	JButton buttonAdd = new JButton("Запиши");
 	JButton buttonSearch = new JButton("Търси");
 	
+	JButton buttonDelete = new JButton("Изтрий");
+	JButton buttonEdit = new JButton("Редактрирай");
+	
+	JTable dataTable = new JTable();
+	JScrollPane scrollerTable = new JScrollPane(dataTable);
 	
 	public Movies(){
 		super();
-		setLayout(new GridLayout(3,1));
-		
+		setLayout(new MigLayout());
+
 		JPanel movieInfoPanel = new JPanel();
-		movieInfoPanel.setLayout(new GridLayout(7,2,1,4));
+		movieInfoPanel.setLayout(new MigLayout());
 		
 		movieInfoPanel.add(labelMovieName);
-		movieInfoPanel.add(movieName);
+		movieInfoPanel.add(movieName, "wrap");
 		
 		movieInfoPanel.add(labelTrailer);
-		movieInfoPanel.add(movieTrailer);
+		movieInfoPanel.add(movieTrailer, "wrap");
 		
 		movieInfoPanel.add(labelYear);
-		movieInfoPanel.add(movieYear);
+		movieInfoPanel.add(movieYear, "wrap");
 		
 		movieInfoPanel.add(labelDescription);
-		movieInfoPanel.add(movieDescription);
+		movieInfoPanel.add(movieDescription, "wrap");
 		
 		movieInfoPanel.add(labelCategories);
-		movieInfoPanel.add(dropDown);
-		movieInfoPanel.add(new JPanel());
-		movieInfoPanel.add(buttonAdd);
+		listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		listCategories.setLayoutOrientation(JList.VERTICAL);
+		listCategories.setVisibleRowCount(4);;
+		movieInfoPanel.add(scrollCategories, "wrap");
+		
+		
+		movieInfoPanel.add(buttonAdd, "wrap 30");
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -71,13 +79,19 @@ public class Movies extends JPanel{
 		searchPanel.add(dropDownChoice);
 		searchPanel.add(buttonSearch);
 		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new MigLayout());
+		buttonsPanel.add(buttonDelete);
+		buttonsPanel.add(buttonEdit, "wrap");
+		
 		JPanel tablePanel = new JPanel();
 		dataTable.setPreferredScrollableViewportSize(new Dimension(600,150));
 		dataTable.setFillsViewportHeight(true);
-		tablePanel.add(scroller);
+		tablePanel.add(scrollerTable);
 		
-		add(movieInfoPanel);
-		add(searchPanel);
-		add(tablePanel);
+		this.add(movieInfoPanel, "wrap");
+		this.add(searchPanel, "wrap");
+		this.add(buttonsPanel, "wrap");
+		this.add(tablePanel, "wrap");
 	}
 }
