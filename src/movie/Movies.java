@@ -1,6 +1,10 @@
 package movie;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -15,20 +19,22 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+
+import db.MyModel;
 import net.miginfocom.swing.MigLayout;
 
 public class Movies extends JPanel{
 
 	private static final long serialVersionUID = 5868937736280780583L;
 	JLabel labelMovieName = new JLabel("Име на филма:");
-	JLabel labelTrailer = new JLabel("Трайлър:");
-	JLabel labelYear = new JLabel("Година:");
-	JLabel labelDescription = new JLabel("Описание:");
-	JLabel labelCategories = new JLabel("Категория:");
+	JLabel labelMovieTrailer = new JLabel("Трайлър:");
+	JLabel labelMovieDate = new JLabel("Година:");
+	JLabel labelMovieDesc = new JLabel("Описание:");
+	JLabel labelMovieCats = new JLabel("Категория:");
 	
 	JTextField movieName = new JTextField(10);
 	JTextField movieTrailer = new JTextField(10);
-	JTextField movieYear = new JTextField(5);
+	JTextField movieDate = new JTextField(5);
 	JTextField searchName = new JTextField("Заглавие на филма",15);
 	JTextArea movieDescription = new JTextArea(4, 30);
 	
@@ -57,16 +63,16 @@ public class Movies extends JPanel{
 		movieInfoPanel.add(labelMovieName);
 		movieInfoPanel.add(movieName, "wrap");
 		
-		movieInfoPanel.add(labelTrailer);
+		movieInfoPanel.add(labelMovieTrailer);
 		movieInfoPanel.add(movieTrailer, "wrap");
 		
-		movieInfoPanel.add(labelYear);
-		movieInfoPanel.add(movieYear, "wrap");
+		movieInfoPanel.add(labelMovieDate);
+		movieInfoPanel.add(movieDate, "wrap");
 		
-		movieInfoPanel.add(labelDescription);
+		movieInfoPanel.add(labelMovieDesc);
 		movieInfoPanel.add(movieDescription, "wrap");
 		
-		movieInfoPanel.add(labelCategories);
+		movieInfoPanel.add(labelMovieCats);
 		listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		listCategories.setLayoutOrientation(JList.VERTICAL);
 		listCategories.setVisibleRowCount(4);;
@@ -127,5 +133,35 @@ public class Movies extends JPanel{
 		this.add(searchPanel, "wrap");
 		this.add(buttonsPanel, "wrap");
 		this.add(tablePanel, "wrap");
+	}
+	
+	class RefreshOnCloseWindowListener extends WindowAdapter {
+	    public void windowClosed(WindowEvent e) {
+	    	refreshContent();
+	    }
+	}
+	
+	class NewCategory implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println( MovieModel.insertMovie(movieName.getText()) );
+			movieName.setText("");
+			movieDescription.setText("");
+			movieTrailer.setText("");
+			movieDate.setText("");
+			refreshContent();
+		}
+		
+	}
+	
+	public void refreshContent(){
+		try {
+			MyModel model = MovieModel.getAllMovies();
+			model.fireTableDataChanged();
+			dataTable.setModel(model);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

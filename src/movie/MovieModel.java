@@ -21,12 +21,11 @@ public class MovieModel {
 	static MyModel model = null;
 	
 	/**
-	 * Get all Movies for Movie Table
+	 * Get all Movies from Data Base
 	 * 
-	 * @return MyModel
+	 * @return The model for the JTable
 	 * @throws Exception
 	 */
-	
 	public static MyModel getAllMovies() throws Exception {
 		prepState = MovieModel.con.prepareStatement("SELECT * FROM movies");
 		result = prepState.executeQuery();
@@ -38,8 +37,8 @@ public class MovieModel {
 	/**
 	 * Get the Movie by Movie ID
 	 * 
-	 * @param m_id
-	 * @return ResultSet|null
+	 * @param m_id Movie ID to be fetched
+	 * @return       ResultSet with One Movie
 	 */
 	public static ResultSet getMovieById(int m_id) {
 		try {

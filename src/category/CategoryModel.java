@@ -20,6 +20,12 @@ public class CategoryModel {
 	static ResultSet result = null;
 	static MyModel model = null;
 	
+	/**
+	 * Gets all Categories from the Data Base
+	 * 
+	 * @return The model for the JTable
+	 * @throws Exception
+	 */
 	public static MyModel getAllCategories() throws Exception {
 		prepState = MovieModel.con.prepareStatement("SELECT * FROM categories");
 		result = prepState.executeQuery();
@@ -28,6 +34,12 @@ public class CategoryModel {
 		return model;
 	}
 	
+	/**
+	 * Get the Category by Category ID
+	 * 
+	 * @param cat_id Category ID to be fetched
+	 * @return       ResultSet with One Category
+	 */
 	public static ResultSet getCategoryById(int cat_id) {
 		try {
 			prepState = CategoryModel.con.prepareStatement("SELECT * FROM categories WHERE cat_id=?");
@@ -43,9 +55,9 @@ public class CategoryModel {
 	}
 	
 	/**
+	 * Insert Category
 	 * 
-	 * 
-	 * @param cat_name
+	 * @param cat_name Category name
 	 * @return Integer ID of new Category
 	 */
 	public static int insertCategory(String cat_name) {
@@ -66,6 +78,12 @@ public class CategoryModel {
 		return newRecordID;
 	}
 	
+	/**
+	 * Update Category
+	 * 
+	 * @param cat_id
+	 * @param newCat_name
+	 */
 	public static void updateCategory(int cat_id, String newCat_name) {
 		try {
 			prepState = CategoryModel.con.prepareStatement("UPDATE categories SET cat_name=? WHERE cat_id=?");
@@ -77,6 +95,11 @@ public class CategoryModel {
 		}
 	}
 	
+	/**
+	 * Delete a Category
+	 * 
+	 * @param cat_id The Category ID to be deleted
+	 */
 	public static void deleteCategory(int cat_id) {
 		try {
 			prepState = CategoryModel.con.prepareStatement("DELETE FROM categories WHERE cat_id=?");
@@ -87,6 +110,10 @@ public class CategoryModel {
 		}
 	}
 	
+	/**
+	 * Delete more than one Category
+	 * @param ids Arrays of ids to be deleted 
+	 */
 	public static void deleteCategories(int[] ids) {
 		for ( int i = 0; i < Array.getLength(ids); i++ ) {
 			CategoryModel.deleteCategory(ids[i]);
