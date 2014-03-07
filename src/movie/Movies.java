@@ -12,6 +12,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -88,6 +90,38 @@ public class Movies extends JPanel{
 		dataTable.setPreferredScrollableViewportSize(new Dimension(600,150));
 		dataTable.setFillsViewportHeight(true);
 		tablePanel.add(scrollerTable);
+		
+		try {
+			dataTable.setModel(MovieModel.getAllMovies());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		dataTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	/*ListSelectionModel lsm = (ListSelectionModel) event.getSource();
+	            if(lsm.isSelectionEmpty()) {
+	                System.out.println("<none>");
+	            } else {
+	            	System.out.println(Table.getValueAt(0, 0));
+	            	//int[] rows = Table.getSelectedRows();
+	            	//System.out.println(Arrays.toString(rows));
+	            }*/
+	        	int rowCount = dataTable.getSelectedRowCount();
+	        	
+	        	if ( rowCount > 0) {
+	        		buttonDelete.setEnabled(true);
+	    		}else{
+	    			buttonDelete.setEnabled(false);
+	    		}
+	        	
+	        	if( rowCount == 1 ) {
+        			buttonEdit.setEnabled(true);
+        		}else{
+        			buttonEdit.setEnabled(false);
+        		}
+	        }
+	    });
 		
 		this.add(movieInfoPanel, "wrap");
 		this.add(searchPanel, "wrap");

@@ -10,8 +10,11 @@ public class DBUtil {
 	
 	public static Connection getConnected(){
 		try {
+			
 			Class.forName("org.h2.Driver");
-			connected = DriverManager.getConnection("jdbc:h2:~/Desktop/H2_Data/test", "sa","");
+			if ( connected == null ) {
+				connected = DriverManager.getConnection("jdbc:h2:file:h2_db/test", "sa","");
+			}
 			return connected;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

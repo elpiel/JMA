@@ -1,4 +1,4 @@
-package category;
+package movie;
 
 import db.DBUtil;
 
@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 import db.MyModel;
 
-public class CategoryModel {
+public class MovieModel {
 
 	static Connection con = DBUtil.getConnected();
 	static Statement state = null;
@@ -19,17 +19,17 @@ public class CategoryModel {
 	static ResultSet result = null;
 	static MyModel model = null;
 	
-	public static MyModel getAllCategories() throws Exception {
-		state = CategoryModel.con.createStatement();
-		result = state.executeQuery("SELECT * FROM categories");
+	public static MyModel getAllMovies() throws Exception {
+		state = MovieModel.con.createStatement();
+		result = state.executeQuery("SELECT * FROM movies");
 		model = new MyModel(result);
 		return model;
 	}
 	
-	public static ResultSet getCategoryById(int cat_id) {
+	public static ResultSet getMovieById(int m_id) {
 		try {
-			prepState = CategoryModel.con.prepareStatement("SELECT * FROM categories WHERE cat_id=?");
-			prepState.setInt(1, cat_id);
+			prepState = MovieModel.con.prepareStatement("SELECT * FROM movies WHERE m_id=?");
+			prepState.setInt(1, m_id);
 			result = prepState.executeQuery();
 			
 			result.first();
@@ -40,19 +40,19 @@ public class CategoryModel {
 		return null;
 	}
 	
-	public static void insertCategory(String cat_name) {
+	public static void insertMovie(String m_id) {
 		try {
-			prepState = CategoryModel.con.prepareStatement("INSERT INTO categories VALUES (null,?)");
-			prepState.setString(1, cat_name);
+			prepState = MovieModel.con.prepareStatement("INSERT INTO movies VALUES (null,?)");
+			prepState.setString(1, m_id);
 			prepState.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void updateCategory(int cat_id, String newCat_name) {
+	public static void updateMovie(int cat_id, String newCat_name) {
 		try {
-			prepState = CategoryModel.con.prepareStatement("UPDATE categories SET cat_name=? WHERE cat_id=?");
+			prepState = MovieModel.con.prepareStatement("UPDATE movies SET cat_name=? WHERE cat_id=?");
 			prepState.setString(1, newCat_name);
 			prepState.setInt(2, cat_id);
 			prepState.execute();
@@ -61,10 +61,10 @@ public class CategoryModel {
 		}
 	}
 	
-	public static void deleteCategory(int cat_id) {
+	public static void deleteMovie(int m_id) {
 		try {
-			prepState = CategoryModel.con.prepareStatement("DELETE FROM categories WHERE cat_id=?");
-			prepState.setInt(1, cat_id);
+			prepState = MovieModel.con.prepareStatement("DELETE FROM movies WHERE m_id=?");
+			prepState.setInt(1, m_id);
 			prepState.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class CategoryModel {
 	
 	public static void deleteCategories(int[] ids) {
 		for ( int i = 0; i < Array.getLength(ids); i++ ) {
-			CategoryModel.deleteCategory(ids[i]);
+			MovieModel.deleteMovie(ids[i]);
 		}
 	}
 
