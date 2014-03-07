@@ -9,19 +9,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import movie.MovieModel;
 import db.MyModel;
 
 public class CategoryModel {
 
-	static Connection con = DBUtil.getConnected();
+	public static Connection con = DBUtil.getConnected();
 	static Statement state = null;
 	static PreparedStatement prepState = null;
 	static ResultSet result = null;
 	static MyModel model = null;
 	
 	public static MyModel getAllCategories() throws Exception {
-		state = CategoryModel.con.createStatement();
-		result = state.executeQuery("SELECT * FROM categories");
+		prepState = MovieModel.con.prepareStatement("SELECT * FROM categories");
+		result = prepState.executeQuery();
+		
 		model = new MyModel(result);
 		return model;
 	}

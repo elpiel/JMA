@@ -9,23 +9,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import category.CategoryModel;
 import db.MyModel;
 
 public class MovieModel {
 
-	static Connection con = DBUtil.getConnected();
+	public static Connection con = DBUtil.getConnected();
 	static Statement state = null;
 	static PreparedStatement prepState = null;
 	static ResultSet result = null;
 	static MyModel model = null;
 	
+	/**
+	 * Get all Movies for Movie Table
+	 * 
+	 * @return MyModel
+	 * @throws Exception
+	 */
+	
 	public static MyModel getAllMovies() throws Exception {
-		state = MovieModel.con.createStatement();
-		result = state.executeQuery("SELECT * FROM movies");
+		prepState = MovieModel.con.prepareStatement("SELECT * FROM movies");
+		result = prepState.executeQuery();
+		
 		model = new MyModel(result);
 		return model;
 	}
 	
+	/**
+	 * Get the Movie by Movie ID
+	 * 
+	 * @param m_id
+	 * @return ResultSet|null
+	 */
 	public static ResultSet getMovieById(int m_id) {
 		try {
 			prepState = MovieModel.con.prepareStatement("SELECT * FROM movies WHERE m_id=?");
@@ -33,6 +48,30 @@ public class MovieModel {
 			result = prepState.executeQuery();
 			
 			result.first();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Getting the Categories of the Movie by Movie ID
+	 * 
+	 * @param m_id
+	 * @return ResultSet|null
+	 */
+	public static ResultSet getMovieCatsById(int m_id) {
+		try {
+			prepState = CategoryModel.con.prepareStatement(
+					"SELECT c.cat_name FROM categories AS c"
+					+ "LEFT JOIN movies_categories AS mc"
+					+ "ON (c.cat_id=mc.m_id)"
+					+ "WHERE mc.m_id=?"
+			);
+			prepState.setInt(1, m_id);
+			result = prepState.executeQuery();
+			
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
