@@ -1,15 +1,18 @@
 package category;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -43,9 +46,13 @@ public class Categories extends JPanel{
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new MigLayout());
-		buttonDelete.setEnabled(false);
 		
+		buttonDelete.setEnabled(false);
+		buttonDelete.addActionListener(new DeleteCatsListener());
 		buttonsPanel.add(buttonDelete);
+		
+		buttonEdit.setEnabled(false);
+		buttonEdit.addActionListener(new EditCatListener());
 		buttonsPanel.add(buttonEdit, "wrap");
 		
 		JPanel tablePanel = new JPanel();
@@ -64,33 +71,82 @@ public class Categories extends JPanel{
 		
 		Table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	        	ListSelectionModel lsm = (ListSelectionModel) event.getSource();
-	        	
+	        	/*ListSelectionModel lsm = (ListSelectionModel) event.getSource();
 	            if(lsm.isSelectionEmpty()) {
 	                System.out.println("<none>");
 	            } else {
 	            	System.out.println(Table.getValueAt(0, 0));
 	            	//int[] rows = Table.getSelectedRows();
 	            	//System.out.println(Arrays.toString(rows));
-	            }
+	            }*/
+	        	int rowCount = Table.getSelectedRowCount();
 	        	
-	        	/*if ( Table.getSelectedRowCount() > 0) {
+	        	if ( rowCount > 0) {
 	        		buttonDelete.setEnabled(true);
-	        		System.out.println("1");
 	    		}else{
 	    			buttonDelete.setEnabled(false);
-	    		}*/
+	    		}
 	        	
-	            
+	        	if( rowCount == 1 ) {
+        			buttonEdit.setEnabled(true);
+        		}else{
+        			buttonEdit.setEnabled(false);
+        		}
 	        }
 	    });
-		
-		
 		
 		this.add(newPanel);
 		this.add(buttonsPanel);
 		this.add(tablePanel);
+	}
+	
+	class DeleteCatsListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int[] rows = Table.getSelectedRows();
+			
+			// creating array of X number of integers in memory
+			int[] cat_ids = new int[Table.getSelectedRowCount()];
+			
+			for(int i = 0; i < Table.getSelectedRowCount(); i++) {
+				// every ID is set to the array
+				cat_ids[i] = (int) Table.getValueAt(rows[i], 0); // this is First column (cat_id) from Table
+			}
+			
+			// delete these IDs
+			CategoryModel.deleteCategories(cat_ids);
+			
+			refreshContent();
+		}
 		
+	}
+	
+	class EditCatListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			int cat_id = (int) Table.getValueAt(Table.getSelectedRow(), 0);
+			
+			CategoryFrame catFrame = new CategoryFrame(cat_id);
+			catFrame.setSize(400,300);
+			catFrame.setVisible(true);
+			catFrame.setLocationRelativeTo(null);
+			
+			//catFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			
+			catFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			catFrame.addWindowListener(new RefreshOnCloseWindowListener());
+			
+		}
+		
+	}
+	
+	class RefreshOnCloseWindowListener extends WindowAdapter {
+	    public void windowClosed(WindowEvent e) {
+	    	refreshContent();
+	    }
 	}
 	
 	class NewCategory implements ActionListener{
@@ -98,6 +154,7 @@ public class Categories extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			CategoryModel.insertCategory(categoryField.getText());
+			categoryField.setText("");
 			refreshContent();
 		}
 		
