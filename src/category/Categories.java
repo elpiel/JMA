@@ -153,7 +153,7 @@ public class Categories extends JPanel{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CategoryModel.insertCategory(categoryField.getText());
+			System.out.println( CategoryModel.insertCategory(categoryField.getText()) );
 			categoryField.setText("");
 			refreshContent();
 		}

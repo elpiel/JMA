@@ -79,14 +79,22 @@ public class MovieModel {
 		return null;
 	}
 	
-	public static void insertMovie(String m_id) {
+	public static int insertMovie(String m_id) {
+		int newRecordID = -1;
 		try {
-			prepState = MovieModel.con.prepareStatement("INSERT INTO movies VALUES (null,?)");
+			prepState = MovieModel.con.prepareStatement("INSERT INTO movies VALUES (null,?)"); 
+
 			prepState.setString(1, m_id);
 			prepState.execute();
+			
+			ResultSet result = prepState.getGeneratedKeys(); // get the ID of the New record from Statement
+			result.next(); // to use results call next()
+			
+			newRecordID = result.getInt(1); // get the ID from ResultSet
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return newRecordID;
 	}
 	
 	public static void updateMovie(int cat_id, String newCat_name) {

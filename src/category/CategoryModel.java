@@ -42,14 +42,28 @@ public class CategoryModel {
 		return null;
 	}
 	
-	public static void insertCategory(String cat_name) {
+	/**
+	 * 
+	 * 
+	 * @param cat_name
+	 * @return Integer ID of new Category
+	 */
+	public static int insertCategory(String cat_name) {
+		int newRecordID = -1;
 		try {
-			prepState = CategoryModel.con.prepareStatement("INSERT INTO categories VALUES (null,?)");
+			prepState = CategoryModel.con.prepareStatement("INSERT INTO categories(cat_id, cat_name) VALUES (null,?)"); 
+
 			prepState.setString(1, cat_name);
 			prepState.execute();
+			
+			ResultSet result = prepState.getGeneratedKeys(); // get the ID of the New record from Statement
+			result.next(); // to use results call next()
+			
+			newRecordID = result.getInt(1); // get the ID from ResultSet
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return newRecordID;
 	}
 	
 	public static void updateCategory(int cat_id, String newCat_name) {
