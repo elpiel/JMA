@@ -34,6 +34,13 @@ public class CategoryModel {
 		return model;
 	}
 	
+	public static Object[] getAllCatsNames() {
+		return null;
+	}
+	public static Object[] getAllCats() {
+		return null;
+	}
+	
 	/**
 	 * Get the Category by Category ID
 	 * 

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -18,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 
 import db.MyModel;
 import net.miginfocom.swing.MigLayout;
@@ -36,8 +36,9 @@ public class Movies extends JPanel{
 	JTextField movieTrailer = new JTextField(10);
 	JTextField movieDate = new JTextField(5);
 	JTextField searchName = new JTextField("Заглавие на филма",15);
-	JTextArea movieDescription = new JTextArea(4, 30);
+	JTextArea movieDesc = new JTextArea(4, 30);
 	
+	//Object[] categories = {"Екшън","Комедия","Ужас","Драма","Криминален","Спортен"};
 	Object[] categories = {"Екшън","Комедия","Ужас","Драма","Криминален","Спортен"};
 	JList<Object> listCategories = new JList<Object>(categories);
 	JScrollPane scrollCategories = new JScrollPane(listCategories);
@@ -70,7 +71,7 @@ public class Movies extends JPanel{
 		movieInfoPanel.add(movieDate, "wrap");
 		
 		movieInfoPanel.add(labelMovieDesc);
-		movieInfoPanel.add(movieDescription, "wrap");
+		movieInfoPanel.add(movieDesc, "wrap");
 		
 		movieInfoPanel.add(labelMovieCats);
 		listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -78,7 +79,7 @@ public class Movies extends JPanel{
 		listCategories.setVisibleRowCount(4);;
 		movieInfoPanel.add(scrollCategories, "wrap");
 		
-		
+		buttonAdd.addActionListener(new NewMovieButton());
 		movieInfoPanel.add(buttonAdd, "wrap 30");
 		
 		JPanel searchPanel = new JPanel();
@@ -141,13 +142,28 @@ public class Movies extends JPanel{
 	    }
 	}
 	
-	class NewCategory implements ActionListener{
+	class NewMovieButton implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println( MovieModel.insertMovie(movieName.getText()) );
+			//int movieId = MovieModel.insertMovie(movieName.getText(), movieTrailer.getText(), movieDesc.getText(), movieDate.getText());
+			
+			//System.out.println(movieId);
+			//List<Object> selected = listCategories.getSelectedValuesList();
+			
+			//String[] selectedItems = new String[selected.length];
+
+			/*System.out.println(selected.size());
+			
+			for(int i=0; i<selected.size();i++){
+				//selectedItems[i] = selected.toString();
+				System.out.println(selected.get(i));
+			}*/
+			
+			//MovieModel.syncCategories(movieId, categories);
+			
 			movieName.setText("");
-			movieDescription.setText("");
+			movieDesc.setText("");
 			movieTrailer.setText("");
 			movieDate.setText("");
 			refreshContent();

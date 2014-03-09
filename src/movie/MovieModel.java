@@ -4,10 +4,13 @@ import db.DBUtil;
 
 import java.lang.reflect.Array;
 import java.sql.Connection;
+//import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import category.CategoryModel;
 import db.MyModel;
@@ -78,31 +81,52 @@ public class MovieModel {
 		return null;
 	}
 	
-	public static int insertMovie(String m_id) {
+	public static String DateFormatterForSQL(String date) throws ParseException {
+		// parse the String as a FULL DATE
+		java.util.Date oldDateFormat = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+		
+		// the FULL Date is then formatted to SQL format
+		return new SimpleDateFormat("yyyy-MM-dd").format(oldDateFormat);
+	}
+	
+	public static int insertMovie(String m_name, String m_trailer, String m_desc, String m_date) {
 		int newRecordID = -1;
 		try {
-			prepState = MovieModel.con.prepareStatement("INSERT INTO movies VALUES (null,?)"); 
-
-			prepState.setString(1, m_id);
+			// SQL date format from the formated Date as a String
+			java.sql.Date sqlDateFormat = java.sql.Date.valueOf(MovieModel.DateFormatterForSQL(m_date));
+			
+			prepState = MovieModel.con.prepareStatement("INSERT INTO movies VALUES (null,?,?,?,?)"); 
+			
+			prepState.setString(1, m_name);
+			prepState.setString(2, m_trailer);
+			prepState.setString(3, m_desc);
+			prepState.setDate(4, sqlDateFormat);
 			prepState.execute();
 			
 			ResultSet result = prepState.getGeneratedKeys(); // get the ID of the New record from Statement
 			result.next(); // to use results call next()
 			
 			newRecordID = result.getInt(1); // get the ID from ResultSet
-		} catch (SQLException e) {
+		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 		}
 		return newRecordID;
 	}
 	
-	public static void updateMovie(int cat_id, String newCat_name) {
+	public static void updateMovie(int cat_id, String newM_name, String newM_trailer, String newM_desc, String newM_date) {
 		try {
-			prepState = MovieModel.con.prepareStatement("UPDATE movies SET cat_name=? WHERE cat_id=?");
-			prepState.setString(1, newCat_name);
-			prepState.setInt(2, cat_id);
+			// SQL date format from the formated Date as a String
+			java.sql.Date sqlDateFormat = java.sql.Date.valueOf(MovieModel.DateFormatterForSQL(newM_date));
+
+			prepState = MovieModel.con.prepareStatement("UPDATE movies SET m_name=?, m_trailer=?, m_desc=? m_date=? WHERE m_id=?");
+			prepState.setString(1, newM_name);
+			prepState.setString(2, newM_trailer);
+			prepState.setString(3, newM_desc);
+			prepState.setDate(4, sqlDateFormat);
+			
+			prepState.setInt(5, cat_id);
 			prepState.execute();
-		} catch (SQLException e) {
+		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 		}
 	}
