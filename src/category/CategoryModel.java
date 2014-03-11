@@ -35,9 +35,51 @@ public class CategoryModel {
 	}
 	
 	public static Object[] getAllCatsNames() {
+		try {
+			state = CategoryModel.con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			result = state.executeQuery("SELECT c.cat_name FROM categories AS c");
+			
+			result.last();
+			int row_count = result.getRow();
+			result.beforeFirst();
+			
+			Object[] object_array = new Object[row_count];
+			
+			while ( result.next() ) {
+				int row = result.getRow();
+				object_array[row-1] = result.getString(1);
+			}
+			
+			return object_array;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	public static Object[] getAllCats() {
+	
+	public static int[] getAllCatsIds() {
+		try {
+			state = CategoryModel.con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			result = state.executeQuery("SELECT c.cat_id FROM categories AS c");
+			
+			result.last();
+			int row_count = result.getRow();
+			result.beforeFirst();
+			
+			//System.out.println(row_count);
+			
+			int[] int_array = new int[row_count];
+			
+			while ( result.next() ) {
+				int row = result.getRow();
+				//System.out.println(result.getInt(1));
+				int_array[row-1] = result.getInt(1);
+			}
+			
+			return int_array;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

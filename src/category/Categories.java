@@ -134,8 +134,6 @@ public class Categories extends JPanel{
 			catFrame.setVisible(true);
 			catFrame.setLocationRelativeTo(null);
 			
-			//catFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			
 			catFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 			catFrame.addWindowListener(new RefreshOnCloseWindowListener());
 			
