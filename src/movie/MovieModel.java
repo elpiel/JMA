@@ -65,10 +65,10 @@ public class MovieModel {
 		
 		sql = "SELECT m.m_id, m.m_name, m.m_trailer, m.m_date FROM movies AS m "
 				+ "LEFT JOIN movies_categories AS mc ON m.m_id=mc.m_id "
-				+ "WHERE m.m_name=? AND mc.cat_id=?";
+				+ "WHERE m.m_name LIKE ? AND mc.cat_id=?";
 		
 		prepState = MovieModel.con.prepareStatement(sql);
-		prepState.setString(1, m_name);
+		prepState.setString(1, "%" + m_name + "%");
 		prepState.setInt(2, cat_id);
 		
 		result = prepState.executeQuery();

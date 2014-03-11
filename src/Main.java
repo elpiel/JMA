@@ -16,7 +16,7 @@ class Main extends JFrame{
 		Components();
 	}
 	
-	public void Components(){
+	public void Components() {
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		Movies movie = new Movies();

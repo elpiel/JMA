@@ -108,9 +108,6 @@ public class Movies extends JPanel{
             }
         });
 
-		//saerchName.add
-		//searchName.addMouseListener();
-		//searchName.addActionListener(new ClearOnClick());
 		searchPanel.add(searchName);
 		searchPanel.add(dropDownChoice);
 		buttonSearch.addActionListener(new SearchListener());
