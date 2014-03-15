@@ -12,7 +12,7 @@ class Main extends JFrame{
 	JTabbedPane tabs = new JTabbedPane();
 	
 	public Main(){
-		super("JDBA");
+		super("Java Movies Application");
 		Components();
 	}
 	
